@@ -20,7 +20,7 @@ public class ArraySorterTest {
 
   @Test
   public void testValidPatternOneNullList() {
-    assertFalse(ArraySorter.sortInPlace(nums, true, null));
+    assertFalse(ArraySorter.sortInPlace(nums, true, list1, null));
     assertArrayEquals(new double[]{6, 2, 1, 8}, nums);
   }
 
