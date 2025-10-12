@@ -11,7 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FilterTest {
-  private Source source;
+  private Source source = new Source() {
+    @Override
+    public List<String> get() {
+      return List.of("Hello", "World");
+    }
+  };
   List<String> filterList = List.of("hello", "world");
 
   @Test
@@ -26,16 +31,11 @@ public class FilterTest {
 
   @Test
   public void emptyInputList() {
-    assertEquals(Collections.emptySet(), Filter.filter(Collections.emptyList(), new Source() {
-      @Override
-      public List<String> get() {
-        return Collections.emptyList();
-      }
-    }));
+    assertEquals(Collections.emptySet(), Filter.filter(Collections.emptyList(), source));
   }
 
   @Test
-  public void getEmptyList() {
+  public void getReturnsEmptyList() {
     assertEquals(Collections.emptySet(), Filter.filter(filterList, new Source() {
       @Override
       public List<String> get() {
@@ -45,7 +45,7 @@ public class FilterTest {
   }
 
   @Test
-  public void getNull() {
+  public void getReturnsNull() {
     assertEquals(Collections.emptySet(), Filter.filter(filterList, new Source() {
       @Override
       public List<String> get() {
@@ -55,11 +55,31 @@ public class FilterTest {
   }
 
   @Test
-  public void filterReturnSingleString() {
+  public void filterReturnSingleString1() {
     assertEquals(Set.of("hello"), Filter.filter(List.of("hello"), new Source() {
       @Override
       public List<String> get() {
         return List.of("hello", "world", "and", "you");
+      }
+    }));
+  }
+
+  @Test
+  public void filterReturnSingleString2() {
+    assertEquals(Set.of("hello"), Filter.filter(List.of("hello", "world"), new Source() {
+      @Override
+      public List<String> get() {
+        return List.of("hello", "and", "you");
+      }
+    }));
+  }
+
+  @Test
+  public void filterReturnSingleString3() {
+    assertEquals(Set.of("hello"), Filter.filter(List.of("hello", "world"), new Source() {
+      @Override
+      public List<String> get() {
+        return List.of("hello");
       }
     }));
   }
