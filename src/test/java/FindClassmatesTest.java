@@ -167,9 +167,7 @@ public class FindClassmatesTest {
       @Override
       public List<String> getStudents(String className) {
         if (className.equals("Calculus")) {
-          ArrayList<String> list = new ArrayList<>(List.of("A", "B", "C"));
-          list.add(null);
-          return list;
+          return List.of("A", "B");
         } else if (className.equals("History")) {
           return List.of("A", "B");
         } else {
@@ -181,8 +179,7 @@ public class FindClassmatesTest {
       @Override
       public List<String> getClasses(String studentName) {
         if (studentName.equals("A")) {
-          List<String> list = new ArrayList<>(List.of("Calculus", "History"));
-          return list;
+          return List.of("Calculus", "History");
         } else if (studentName.equals("B")) {
           return null;
         } else if (studentName.equals("C")) {
@@ -193,7 +190,7 @@ public class FindClassmatesTest {
       }
     };
     ff = new FriendFinder(cds, sds);
-    assertEquals(Collections.emptySet(), ff.findClassmates("A"));
+    assertEquals(Set.of("A"), ff.findClassmates("C"));
   }
 
   @Test
@@ -206,7 +203,9 @@ public class FindClassmatesTest {
           list.add(null);
           return list;
         } else if (className.equals("History")) {
-          return List.of("A", "B");
+          ArrayList<String> list = new ArrayList<>(List.of("A", "B"));
+          list.add(null);
+          return list;
         } else {
           return Collections.emptyList();
         }
@@ -216,11 +215,17 @@ public class FindClassmatesTest {
       @Override
       public List<String> getClasses(String studentName) {
         if (studentName.equals("A")) {
-          return List.of("Calculus", "History");
+          List<String> list = new ArrayList<>(List.of("Calculus", "History"));
+          list.add(null);
+          return list;
         } else if (studentName.equals("B")) {
-          return List.of("Calculus", "History");
+          List<String> list = new ArrayList<>(List.of("Calculus", "History"));
+          list.add(null);
+          return list;
         } else if (studentName.equals("C")) {
-          return List.of("Calculus");
+          List<String> list = new ArrayList<>(List.of("Calculus"));
+          list.add(null);
+          return list;
         } else {
           return Collections.emptyList();
         }
@@ -230,6 +235,7 @@ public class FindClassmatesTest {
     assertEquals(Set.of("B"), ff.findClassmates("A"));
     assertEquals(Set.of("A"), ff.findClassmates("B"));
     assertEquals(Set.of("A", "B"), ff.findClassmates("C"));
+    assertEquals(Collections.emptySet(), ff.findClassmates("D"));
   }
 
 
